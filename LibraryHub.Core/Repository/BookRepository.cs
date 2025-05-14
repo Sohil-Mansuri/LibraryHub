@@ -15,7 +15,7 @@ namespace LibraryHub.Core.Repository
 
         public async Task DeleteAsync(string id)
         {
-            await _booksCollection.DeleteOneAsync(id);
+            await _booksCollection.DeleteOneAsync(b => b.Id == id);
         }
 
         public async Task<List<Book>> FilterAsync(string genre, int skip, int take)
@@ -33,12 +33,13 @@ namespace LibraryHub.Core.Repository
 
         public async Task<Book?> GetByIdAsync(string id)
         {
-            return await _booksCollection.Find(id).FirstOrDefaultAsync();
+            return await _booksCollection.Find(b => b.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(string id, Book book)
         {
-            await _booksCollection.ReplaceOneAsync(id, book);
+            book.Id = id;
+            await _booksCollection.ReplaceOneAsync(b => b.Id == id, book);
         }
     }
 }

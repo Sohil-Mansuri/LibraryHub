@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryHub.API.Controllers
 {
-    [Route("api/books/v1/")]
+    [Route("api/books/v1")]
     [ApiController]
     public class BookController(BookService bookService) : ControllerBase
     {
@@ -21,6 +21,7 @@ namespace LibraryHub.API.Controllers
         public async Task<IActionResult> GetById(string id)
         {
             var book = await bookService.GetByIdAsync(id);
+            if (book is null) return NotFound("book not found");
             return Ok(book);
         }
 
@@ -35,18 +36,28 @@ namespace LibraryHub.API.Controllers
         public async Task<IActionResult> Create(CreateBook createBookDto)
         {
             await bookService.CreateAsync(createBookDto.ToBook());
-            return CreatedAtAction(nameof(GetById), new { id = "" });
+            return Created();
         }
 
 
-        [HttpPost]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, UpdateBook updateBook)
         {
             var book = await bookService.GetByIdAsync(id);
             if (book is null) return NotFound(id);
 
             await bookService.UpdateAsync(id, updateBook.ToBook());
-            return Ok("updated successfully");
+            return Ok("record updated successfully");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var book = await bookService.GetByIdAsync(id);
+            if (book is null) return NotFound(id);
+
+            await bookService.DeleteAsync(id);
+            return Ok("record deleted");
         }
     }
 }

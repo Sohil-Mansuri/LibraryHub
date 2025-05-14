@@ -1,6 +1,11 @@
+using LibraryHub.Core;
+using LibraryHub.Core.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 
+builder.Services.AddCoreProjectServices();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

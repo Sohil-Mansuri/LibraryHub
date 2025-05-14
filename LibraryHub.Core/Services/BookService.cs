@@ -16,7 +16,7 @@ namespace LibraryHub.Core.Services
             return bookRepository.FilterAsync(genre, skip, pageSize);
         }
 
-        public Task<string> CreateAsync(Book book) => bookRepository.CreateAsync(book);
+        public Task CreateAsync(Book book) => bookRepository.CreateAsync(book);
 
         public Task UpdateAsync(string id, Book book) => bookRepository.UpdateAsync(id, book);
 
