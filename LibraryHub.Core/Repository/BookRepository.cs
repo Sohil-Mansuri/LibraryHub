@@ -1,12 +1,13 @@
 ﻿using LibraryHub.Core.Context;
 using LibraryHub.Core.Entity;
+using LibraryHub.Core.Utility;
 using MongoDB.Driver;
 
 namespace LibraryHub.Core.Repository
 {
     internal class BookRepository(MongoContext mongoContext) : IBookRepository
     {
-        private readonly IMongoCollection<Book> _booksCollection = mongoContext.GetCollection<Book>("Books");
+        private readonly IMongoCollection<Book> _booksCollection = mongoContext.GetCollection<Book>(Constants.BookCollectionName);
 
         public async Task CreateAsync(Book book)
         {
@@ -39,7 +40,7 @@ namespace LibraryHub.Core.Repository
         public async Task UpdateAsync(string id, Book book)
         {
             book.Id = id;
-            await _booksCollection.ReplaceOneAsync(b => b.Id == id, book);
+            await _booksCollection.ReplaceOneAsync(b => b.Id == id, book, new ReplaceOptions { IsUpsert = true});
         }
     }
 }

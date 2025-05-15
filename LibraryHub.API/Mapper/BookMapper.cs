@@ -5,7 +5,7 @@ namespace LibraryHub.API.Mapper
 {
     public static class BookMapper
     {
-        public static Book ToBook(this CreateBook createBookDto)
+        public static Book ToBook(this CreateBookModel createBookDto)
         {
             return new Book
             {
@@ -18,7 +18,7 @@ namespace LibraryHub.API.Mapper
         }
 
 
-        public static Book ToBook(this UpdateBook createBookDto)
+        public static Book ToBook(this UpdateBookModel createBookDto)
         {
             return new Book
             {
@@ -27,6 +27,19 @@ namespace LibraryHub.API.Mapper
                 CopiesAvailable = createBookDto.CopiesAvailable,
                 Genre = createBookDto.Genre,
                 Year = createBookDto.Year,
+            };
+        }
+
+        public static BookDto ToBookDto(this Book book)
+        {
+            return new BookDto
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Genre = book.Genre,
+                Year = book.Year,
+                CopiesAvailable = book.CopiesAvailable,
             };
         }
     }

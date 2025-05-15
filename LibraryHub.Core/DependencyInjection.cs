@@ -4,8 +4,7 @@ using LibraryHub.Core.Context;
 using LibraryHub.Core.Repository;
 using LibraryHub.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Runtime.CompilerServices;
-
+    
 namespace LibraryHub.Core
 {
     public static class DependencyInjection
@@ -15,7 +14,6 @@ namespace LibraryHub.Core
             services.AddSingleton<BookService>();
             services.AddSingleton<IBookRepository, BookRepository>();
             services.AddSingleton<MongoContext>();
-
 
             return services;
         }
