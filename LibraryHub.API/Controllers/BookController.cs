@@ -27,9 +27,9 @@ namespace LibraryHub.API.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> Filter(string genre, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Filter(string? genre, string? author, int? year, int page = 1, int pageSize = 10)
         {
-            var books = await bookService.FilterAsync(genre, page, pageSize);
+            var books = await bookService.FilterAsync(genre!, author!, year, page, pageSize);
             return Ok(ApiResponse<IEnumerable<BookDto>>.Success(books.Select(b => b.ToBookDto())));
         }
 

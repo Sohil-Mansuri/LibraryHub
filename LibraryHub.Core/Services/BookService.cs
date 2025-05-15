@@ -10,10 +10,10 @@ namespace LibraryHub.Core.Services
 
         public Task<Book?> GetByIdAsync(string id) => bookRepository.GetByIdAsync(id);
 
-        public Task<List<Book>> FilterAsync(string genre, int page, int pageSize)
+        public Task<List<Book>> FilterAsync(string genre, string author, int? year, int page, int pageSize)
         {
             int skip = (page - 1) * pageSize;
-            return bookRepository.FilterAsync(genre, skip, pageSize);
+            return bookRepository.FilterAsync(genre, author, year, skip, pageSize);
         }
 
         public Task CreateAsync(Book book) => bookRepository.CreateAsync(book);
