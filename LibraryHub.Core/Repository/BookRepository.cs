@@ -6,13 +6,40 @@ using MongoDB.Driver;
 
 namespace LibraryHub.Core.Repository
 {
-    internal class BookRepository(MongoContext mongoContext) : IBookRepository
+    internal class BookRepository : IBookRepository
     {
-        private readonly IMongoCollection<Book> _booksCollection = mongoContext.GetCollection<Book>(Constants.BookCollectionName);
+        private readonly IMongoCollection<Book> _booksCollection;
+
+        public BookRepository(MongoContext mongoContext)
+        {
+            _booksCollection = mongoContext.GetCollection<Book>(Constants.BookCollectionName);
+            var indexKeys = Builders<Book>.IndexKeys.Ascending(b => b.Title).Ascending(b => b.Year);
+            var indexModel = new CreateIndexModel<Book>(indexKeys, new CreateIndexOptions { Unique = true, Name = "idx_title_year" });
+            _booksCollection.Indexes.CreateOne(indexModel);
+        }
+        public async Task BulkInsert(List<Book> books)
+        {
+            try
+            {
+                await _booksCollection.InsertManyAsync(books, new InsertManyOptions { IsOrdered = false });
+            }
+            catch (MongoBulkWriteException<Book>)
+            {
+                throw new InvalidOperationException("One or more inserts failed due to duplicate or invalid data.");
+            }
+        }
 
         public async Task CreateAsync(Book book)
         {
-            await _booksCollection.InsertOneAsync(book);
+            try
+            {
+                await _booksCollection.InsertOneAsync(book);
+            }
+            catch (MongoWriteException ex) when (ex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+            {
+                // Handle duplicate insert
+                throw new InvalidOperationException("A book with the same title and year already exists.");
+            }
         }
 
         public async Task DeleteAsync(string id)

@@ -1,4 +1,5 @@
 ﻿using DnsClient.Internal;
+using LibraryHub.Core.Entity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

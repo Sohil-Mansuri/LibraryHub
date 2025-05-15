@@ -18,6 +18,8 @@ namespace LibraryHub.Core.Services
 
         public Task CreateAsync(Book book) => bookRepository.CreateAsync(book);
 
+        public Task BulkInsert(List<Book> books) => bookRepository.BulkInsert(books);
+
         public Task UpdateAsync(string id, Book book) => bookRepository.UpdateAsync(id, book);
 
         public Task DeleteAsync(string id) => bookRepository.DeleteAsync(id);

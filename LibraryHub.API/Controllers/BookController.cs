@@ -34,12 +34,18 @@ namespace LibraryHub.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateBookModel createBookDto)
+        public async Task<IActionResult> Create(CreateBookModel books)
         {
-            await bookService.CreateAsync(createBookDto.ToBook());
+            await bookService.CreateAsync(books.ToBook());
             return Ok(ApiResponse<string>.Success("Book created"));
         }
 
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportBooks(List<CreateBookModel> books)
+        {
+            await bookService.BulkInsert([.. books.Select(b => b.ToBook())]);
+            return Ok(ApiResponse<string>.Success("books imported successfully"));
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, UpdateBookModel updateBook)
