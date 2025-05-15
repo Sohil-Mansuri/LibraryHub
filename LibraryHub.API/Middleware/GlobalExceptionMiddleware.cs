@@ -7,6 +7,11 @@ namespace LibraryHub.API.Middleware
 {
     public class GlobalExceptionMiddleware(ILogger<GlobalExceptionMiddleware> logger) : IMiddleware
     {
+        private readonly JsonSerializerOptions jsonOption = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
@@ -27,12 +32,7 @@ namespace LibraryHub.API.Middleware
                 };
 
                 var response = ApiResponse<string>.Fail(error);
-
-                var json = JsonSerializer.Serialize(response, new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
-
+                var json = JsonSerializer.Serialize(response, jsonOption);
                 await context.Response.WriteAsync(json);
             }
         }
