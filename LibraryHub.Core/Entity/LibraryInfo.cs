@@ -15,7 +15,7 @@ namespace LibraryHub.Core.Entity
         [BsonElement("location")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; } = null!;
 
-        [BsonElement("distanceInMeters")]
-        public double DistanceInMeters { get; set; }
+        //[BsonElement("distanceInMeters")]
+        //public double DistanceInMeters { get; set; }
     }
 }
