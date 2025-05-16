@@ -11,23 +11,23 @@ namespace LibraryHub.API.Controllers
     public class LibraryController(LibraryService libraryService) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> AddLibrary(LibraryModel libraryModel)
+        public async Task<IActionResult> Add(LibraryModel libraryModel, CancellationToken cancellationToken)
         {
-            await libraryService.AddAsync(libraryModel.ToLibrary());
+            await libraryService.AddAsync(libraryModel.ToLibrary(), cancellationToken);
             return Ok(ApiResponse<string>.Success("library added"));
         }
 
         [HttpPost("import")]
-        public async Task<IActionResult> BuikImport(List<LibraryModel> libraries)
+        public async Task<IActionResult> BuikImport(List<LibraryModel> libraries, CancellationToken cancellationToken)
         {
-            await libraryService.ImportAsync([.. libraries.Select(l => l.ToLibrary())]);
+            await libraryService.ImportAsync([.. libraries.Select(l => l.ToLibrary())], cancellationToken);
             return Ok(ApiResponse<string>.Success("libraries imported"));
         }
 
         [HttpPost("nearby")]
-        public async Task<IActionResult> GetNearby(LibrarySearchRequest request)
+        public async Task<IActionResult> GetNearby(LibrarySearchRequest request, CancellationToken cancellationToken)
         {
-            var libraries = await libraryService.GetNearbyAsync(request.Let, request.Long, request.Radius);
+            var libraries = await libraryService.GetNearbyAsync(request.Let, request.Long, request.Radius, cancellationToken);
             return Ok(ApiResponse<List<LibrarySearchResponse>>.Success([.. libraries.Select(l => l.ToLibrarySearchResponse())]));
         }
     }
