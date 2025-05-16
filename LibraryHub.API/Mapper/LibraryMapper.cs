@@ -16,5 +16,19 @@ namespace LibraryHub.API.Mapper
                                  new GeoJson2DGeographicCoordinates(library.Coordinates.Lat, library.Coordinates.Long))
             };
         }
+
+        public static LibrarySearchResponse ToLibrarySearchResponse(this LibraryInfo library)
+        {
+            return new LibrarySearchResponse
+            {
+                Name = library.Name,
+                Address = library.Address,
+                Coordinate = new Coordinate
+                {
+                    Lat = library.Location.Coordinates.Latitude,
+                    Long = library.Location.Coordinates.Longitude
+                }
+            };
+        }
     }
 }

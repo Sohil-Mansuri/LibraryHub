@@ -4,12 +4,12 @@ namespace LibraryHub.Core.Repository
 {
     public interface IBookRepository
     {
-        Task<List<Book>> GetAllAsync();
-        Task<Book?> GetByIdAsync(string id);
-        Task<List<Book>> FilterAsync(string genre, string author, int? year, int skip, int take);
-        Task CreateAsync(Book book);
-        Task BulkInsert(List<Book> books);
-        Task UpdateAsync(string id, Book book);
+        Task<List<BookInfo>> GetAllAsync();
+        Task<BookInfo?> GetByIdAsync(string id);
+        Task<List<BookInfo>> FilterAsync(string genre, string author, int? year, int skip, int take);
+        Task CreateAsync(BookInfo book);
+        Task BulkInsert(List<BookInfo> books);
+        Task UpdateAsync(string id, BookInfo book);
         Task DeleteAsync(string id);
     }
 }

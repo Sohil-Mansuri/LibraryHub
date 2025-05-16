@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace LibraryHub.Core.Entity
 {
-    public class Book
+    public class BookInfo
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

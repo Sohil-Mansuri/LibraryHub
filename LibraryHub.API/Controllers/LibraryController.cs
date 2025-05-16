@@ -13,15 +13,22 @@ namespace LibraryHub.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLibrary(LibraryModel libraryModel)
         {
-            await libraryService.AddLibrary(libraryModel.ToLibrary());
+            await libraryService.AddLibraryAsync(libraryModel.ToLibrary());
             return Ok(ApiResponse<string>.Success("library added"));
         }
 
         [HttpPost("import")]
         public async Task<IActionResult> BuikImport(List<LibraryModel> libraries)
         {
-            await libraryService.ImportLibraries([.. libraries.Select(l => l.ToLibrary())]);
+            await libraryService.ImportLibrariesAsync([.. libraries.Select(l => l.ToLibrary())]);
             return Ok(ApiResponse<string>.Success("libraries imported"));
+        }
+
+        [HttpPost("nearby")]
+        public async Task<IActionResult> GetNearby(LibrarySearchRequest request)
+        {
+            var libraries = await libraryService.GetNearbyLibrariesAsync(request.Let, request.Long, request.Radius);
+            return Ok(ApiResponse<List<LibrarySearchResponse>>.Success([.. libraries.Select(l => l.ToLibrarySearchResponse())]));
         }
     }
 }
