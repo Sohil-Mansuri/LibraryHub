@@ -21,17 +21,17 @@ namespace LibraryHub.Core.Repository
             _libraryCollection.Indexes.CreateOne(indexModel);
         }
 
-        public async Task AddLibrary(LibraryInfo library)
+        public async Task AddAsync(LibraryInfo library)
         {
             await _libraryCollection.InsertOneAsync(library);
         }
 
-        public async Task ImportLibraries(List<LibraryInfo> libraries)
+        public async Task ImportAsync(List<LibraryInfo> libraries)
         {
             await _libraryCollection.InsertManyAsync(libraries, new InsertManyOptions { IsOrdered = false });
         }
 
-        public async Task<List<LibraryInfo>> GetNearbyLibrariesAsync(double lat, double lng, double radius)
+        public async Task<List<LibraryInfo>> GetNearbyAsync(double lat, double lng, double radius)
         {
             var radiusInKm = radius * KilometerToMeterFactor;
             var point = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(
@@ -42,7 +42,7 @@ namespace LibraryHub.Core.Repository
             return await _libraryCollection.Find(filter).ToListAsync();
         }
 
-        public async Task<List<LibraryInfo>> GetNearbyLibrariesAsyncV2(double lat, double lng, double radius)
+        public async Task<List<LibraryInfo>> GetNearbyAsyncv2(double lat, double lng, double radius)
         {
             var readiusInMeters = radius * KilometerToMeterFactor;
 

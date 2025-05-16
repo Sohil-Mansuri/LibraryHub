@@ -5,11 +5,11 @@ namespace LibraryHub.Core.Services
 {
     public class LibraryService(ILibraryRepository libraryRepository)
     {
-        public Task AddLibraryAsync(LibraryInfo library)  => libraryRepository.AddLibrary(library);
+        public Task AddAsync(LibraryInfo library)  => libraryRepository.AddAsync(library);
 
-        public Task ImportLibrariesAsync(List<LibraryInfo> libraries) => libraryRepository.ImportLibraries(libraries);
+        public Task ImportAsync(List<LibraryInfo> libraries) => libraryRepository.ImportAsync(libraries);
 
-        public Task<List<LibraryInfo>> GetNearbyLibrariesAsync(double lat, double lng, double radius) => libraryRepository.GetNearbyLibrariesAsync(lat, lng, radius);
-        public Task<List<LibraryInfo>> GetNearbyLibrariesAsyncV2(double lat, double lng, double radius) => libraryRepository.GetNearbyLibrariesAsyncV2(lat, lng, radius);
+        public Task<List<LibraryInfo>> GetNearbyAsync(double lat, double lng, double radius) => libraryRepository.GetNearbyAsync(lat, lng, radius);
+        public Task<List<LibraryInfo>> GetNearbyAsyncV2(double lat, double lng, double radius) => libraryRepository.GetNearbyAsyncv2(lat, lng, radius);
     }
 }
