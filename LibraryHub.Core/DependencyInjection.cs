@@ -15,6 +15,10 @@ namespace LibraryHub.Core
             services.AddSingleton<IBookRepository, BookRepository>();
             services.AddSingleton<MongoContext>();
 
+            services.AddSingleton<LibraryService>();
+            services.AddSingleton<ILibraryRepository, LibraryRepository>();
+
+
             return services;
         }
     }

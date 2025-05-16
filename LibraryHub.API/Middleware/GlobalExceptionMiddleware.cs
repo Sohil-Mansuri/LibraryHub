@@ -1,5 +1,4 @@
-﻿
-using LibraryHub.API.Model;
+﻿using LibraryHub.API.Model;
 using System.Net;
 using System.Text.Json;
 
