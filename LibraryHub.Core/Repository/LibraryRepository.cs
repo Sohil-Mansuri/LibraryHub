@@ -32,11 +32,11 @@ namespace LibraryHub.Core.Repository
 
         public async Task<List<LibraryInfo>> GetNearbyAsync(double lat, double lng, double radius, CancellationToken cancellationToken = default)
         {
-            var radiusInKm = radius * KilometerToMeterFactor;
+            var readiusInMeters = radius * KilometerToMeterFactor;
             var point = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(
                         new GeoJson2DGeographicCoordinates(lng, lat));
 
-            var filter = Builders<LibraryInfo>.Filter.NearSphere(l => l.Location, point, radiusInKm);
+            var filter = Builders<LibraryInfo>.Filter.NearSphere(l => l.Location, point, readiusInMeters);
 
             return await _libraryCollection.Find(filter).ToListAsync(cancellationToken: cancellationToken);
         }
